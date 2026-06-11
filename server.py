@@ -11,5 +11,14 @@ s.bind((socket.gethostname(), 1234))
 s.listen(5)  
 
 while True:
+    # wait for connection accept() return a tuple containing a new socket onject and the adress of the client. The new socket object can be used to communicate with the client, while the address contains the client's IP address and port number.
     clientsocket, adress = s.accept()
+    print(f"Connection from {adress} has been established!") #print the adress..... {adress} is the adress of the client that was accepted.
+
+    #bytes() is a built-in function that turn string into a byte cause sockets communicate using bytes
+
+    #utf-8 is an en
+    clientsocket.send(bytes("wWelcome to the server!", "utf-8"))
+    
+
     
