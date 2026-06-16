@@ -1,4 +1,7 @@
 import socket
+import time
+
+HEADERSIZE = 10
 
 # Create a TCP/IP socket. This one uses IPv4 (AF_INET) and TCP (SOCK_STREAM).
 #socket.socket() creates a new socket object that can be used to communicate over the network. The first argument specifies the address family (AF_INET for IPv4), and the second argument specifies the socket type (SOCK_STREAM for TCP).
@@ -15,10 +18,21 @@ while True:
     clientsocket, adress = s.accept()
     print(f"Connection from {adress} has been established!") #print the adress..... {adress} is the adress of the client that was accepted.
 
+    msg = "Welcome to the server!"
+
+    # this is like %10s in c.
+    msg = f'{len(msg):<{HEADERSIZE}}' + msg
+
+
+
     #bytes() is a built-in function that turn string into a byte cause sockets communicate using bytes
-
     #utf-8 is an en
-    clientsocket.send(bytes("wWelcome to the server!", "utf-8"))
+    clientsocket.send(bytes(msg, "utf-8"))
     
+    #clientsocket.close() #close the connection after sending the message. This is important to free up resources and allow the server to accept new connections.
 
-    
+    while True:
+        time.sleep(3)
+        msg = f"The time is {time.time()}"
+        msg = f'{len(msg):<{HEADERSIZE}}' + msg
+        clientsocket.send(bytes(msg, "utf-8"))
